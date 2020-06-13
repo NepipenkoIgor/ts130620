@@ -1,62 +1,35 @@
-// interface, types, fn, class
-// interface IInfo {
-//     male: boolean
+// T extends U ? X : Y
+// let num: number | string | null;
+// type noNull<T> = T extends null ? never : T;
+// const sn: noNull<typeof num> = true // number| string
+//
+// let actions: [() => { name: string }, () => boolean] = [() => ({name: 'Ihor'}), () => true]
+//
+// type FirstType<T> =
+//     T extends [infer U, ...unknown[]]
+//         ? U extends (...args: any[]) => infer R
+//         ? R
+//         : U
+//         : T
+//
+// let user: FirstType<typeof actions> = {
+//     name: 'asdasd'
 // }
 //
-// interface IAccount<Info extends IInfo, ID = number> {
-//     id: ID;
-//     name: string;
-//     info: Info;
-// }
-//
-// let user: IAccount<{ male: boolean }> = {
-//     id: 1,
-//     name: 'Igor',
-//     info: {
-//         male: true
-//     }
-// }
-// type IAdminInfo = IInfo & { subject: string[] };
-// let admin: IAccount<IAdminInfo, string> = {
-//     id: 'asdasd123123',
-//     name: 'Igor',
-//     info: {
-//         male: true,
-//         subject: ['ts', 'js']
-//     }
-// }
+let a: Exclude<number | string | null, string | number> = 1;
+
+type FnReturnType<T> = T extends (...args: any) => infer R ? R : T;
 
 interface IUser {
-    name: string;
-    age: number;
+    name: string
 }
+let a: FnReturnType<() => number> = 1;
+let b: FnReturnType<() => IUser> =  {
+    name: 'Ihor'
+};
 
-interface IProduct {
-    id: number;
-    name: string;
-    price: number;
-}
+type TAccount<T> = T extends number ? string : null;
+let a: TAccount<string> = 1;
 
-interface ICartProduct {
-    id: number;
-    count: number;
-}
 
-type TState = {
-    user: IUser,
-    products: IProduct[],
-    cart: ICartProduct[],
-}
-
-type Select<State> = <T extends keyof State>(state: State, field: T) => State[T]
-
-const state: TState = {
-    user: {name: 'Ihor', age: 34},
-    products: [{id: 1, name: 'IPhone XR', price: 300}],
-    cart: [{id: 1, count: 2}]
-}
-
-const select: Select<TState> = (storeState, field) => storeState[field];
-const user: IUser = select(state, 'user');
-const products: IProduct[] = select(state, 'products');
-const cart: ICartProduct[] = select(state, 'cart');
+let a: Array
