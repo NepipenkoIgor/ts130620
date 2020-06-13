@@ -6,10 +6,10 @@ function deliveryMethod() {
 }
 
 function shipWeight() {
-    const el = document.getElementById('weight');
-    if (!el) {
-        return 0;
-    }
+    const el = document.getElementById('weight') as HTMLDivElement;
+    // if (!el) {
+    //     return 0;
+    // }
     return parseInt(el.innerHTML, 10);
 }
 
@@ -36,3 +36,4 @@ function sendUpdates(emailAddr: string | string[]) {
         sendEmail(emailAddr.trim());
     }
 }
+
