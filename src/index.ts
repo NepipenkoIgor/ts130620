@@ -1,81 +1,62 @@
-type User = {
-    readonly firstName: string;
-    readonly age?: number;
-    info: {
-        male: boolean
-    }
-}
-//
-// const user: User = {
-//     firstName: 'Igor',
+// interface, types, fn, class
+// interface IInfo {
+//     male: boolean
 // }
 //
-// user.age = 25;
-//
-//
-// let keys: keyof User = 'age';
-// let info: User['info'] = {
-//     male: true,
+// interface IAccount<Info extends IInfo, ID = number> {
+//     id: ID;
+//     name: string;
+//     info: Info;
 // }
 //
-// let userHash: {
-//     [userId: string]: User
-// } = {
-//     'asdasda124124asfas': {
-//         firstName: 'Igor',
-//         info: {
-//             male: true
-//         }
-//     }
-// }
-//
-// let user1 =  {
-//     firstName: 'Igor',
+// let user: IAccount<{ male: boolean }> = {
+//     id: 1,
+//     name: 'Igor',
 //     info: {
 //         male: true
 //     }
-// } as const
-//
-// user1.info.male =  false
+// }
+// type IAdminInfo = IInfo & { subject: string[] };
+// let admin: IAccount<IAdminInfo, string> = {
+//     id: 'asdasd123123',
+//     name: 'Igor',
+//     info: {
+//         male: true,
+//         subject: ['ts', 'js']
+//     }
+// }
 
-
-let users = [{
-    firstName: 'Igor',
-    info: {
-        male: true
-    }
-}] as const
-
-users[100] = {
-    firstName: 'Igor',
-    info: {
-        male: true
-    }
+interface IUser {
+    name: string;
+    age: number;
 }
-users.push( {
-    firstName: 'Igor',
-    info: {
-        male: true
-    }
-})
 
-let userSet: readonly [string, User] = ['asda124124asf', {
-    firstName: 'Igor',
-    info: {
-        male: true
-    }
-}]
-
-userSet[100] = {
-    firstName: 'Igor',
-    info: {
-        male: true
-    }
+interface IProduct {
+    id: number;
+    name: string;
+    price: number;
 }
-userSet.push( {
-    firstName: 'Igor',
-    info: {
-        male: true
-    }
-})
 
+interface ICartProduct {
+    id: number;
+    count: number;
+}
+
+type TState = {
+    user: IUser,
+    products: IProduct[],
+    cart: ICartProduct[],
+}
+
+type Select<State> = <T extends keyof State>(state: State, field: T) => State[T]
+
+const state: TState = {
+    user: {name: 'Ihor', age: 34},
+    products: [{id: 1, name: 'IPhone XR', price: 300}],
+    cart: [{id: 1, count: 2}]
+}
+
+const select: Select<TState> = (storeState, field) => storeState[field];
+const user: IUser = select(state, 'user');
+const products: IProduct[] = select(state, 'products');
+const cart: ICartProduct[] = select(state, 'cart');
