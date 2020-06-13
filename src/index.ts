@@ -1,21 +1,31 @@
-function sleep(ms: number) {
-    return new Promise((res) => {
-        setTimeout(res, ms)
-    })
+let isDone: boolean = true;
+isDone = false;
+
+let str: string = 'str';
+str = `${str}`;
+
+let num: number = 1.2;
+num = NaN;
+num = 0b1010;
+
+num.toFixed()
+
+let nill: null = null;
+let und: undefined = undefined;
+
+
+let bigNum: bigint = 4n;
+
+const key1: symbol = Symbol();
+const key2: unique symbol = Symbol();
+const key3 = Symbol();
+
+let strictObj = {
+    [key1]: 100,
+    [key2]: 100,
+    [key3]: 100,
 }
 
-async function* getItemsReallySlowly<T>(items: Iterable<T>): AsyncIterableIterator<T> {
-    for (const item of items) {
-        await sleep(1000);
-        yield  item;
-    }
-}
-
-
-async function speakLikeSloth(items: string[]) {
-    for await  (const item of getItemsReallySlowly(items)) {
-        console.log(item);
-    }
-}
-
-speakLikeSloth(['hi', 'all', 'TypeScript', 'is', 'awesome', '!']);
+let v1 = strictObj[key1]; // number, string
+let v2 = strictObj[key2];
+let v3 = strictObj[key3];
